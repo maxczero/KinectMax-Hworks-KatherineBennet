@@ -52,6 +52,13 @@ void draw(){
   beginShape(POINTS);
   for (int x = 0; x < kinect.width; x+=skip) {
     for (int y = 0; y < kinect.height; y+=skip) {
+      OscMessage myMessage1 = new OscMessage("/matrix-location");
+      
+      myMessage1.add(x);
+      myMessage1.add(y);
+      
+      oscP5.send(myMessage1, myRemoteLocation);
+      
       int offset = x + y * kinect.width;
       int d = depth[offset];
       //calculte the x, y, z camera position based on the depth information
