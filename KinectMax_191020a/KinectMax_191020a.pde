@@ -22,7 +22,7 @@ Kinect kinect;
 
 
 void setup() {
-  frameRate(50);
+  frameRate(60);
   //OscP5 setup 
   oscP5 = new OscP5(this,12000);
   myRemoteLocation = new NetAddress("127.0.0.1",12000);
