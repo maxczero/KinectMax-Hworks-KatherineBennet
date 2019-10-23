@@ -38,24 +38,25 @@ void draw(){
   background(0);
   
   //Translate and Rotate
-  pushMatrix();
+  //pushMatrix();
   translate(width/2, height/2, -50);
   
   // We're just going to calculate and draw every 2nd pixel
-  int skip = 4;
+  int skip = 0;
   
   // Get the raw depth as array of integers
   int[] depth = kinect.getRawDepth();
   
-  stroke(255);
-  strokeWeight(2);
-  beginShape(POINTS);
+  //stroke(255);
+  //strokeWeight(2);
+  //beginShape(POINTS);
+  
   for (int x = 0; x < kinect.width; x+=skip) {
+    
     for (int y = 0; y < kinect.height; y+=skip) {
-      OscMessage myMessage1 = new OscMessage("/matrix-location");
-      
-      myMessage1.add(x);
-      myMessage1.add(y);
+       OscMessage myMessage1 = new OscMessage("/matrix-location");
+       myMessage1.add(x);
+       myMessage1.add(y);
       
       oscP5.send(myMessage1, myRemoteLocation);
       
@@ -64,6 +65,9 @@ void draw(){
       //calculte the x, y, z camera position based on the depth information
       PVector point = depthToPointCloudPos(x, y, d);
       
+     
+      // Draw a point
+      //vertex(point.x, point.y, point.z);
       OscMessage myMessage = new OscMessage("/point");
       
       myMessage.add(point.x);
@@ -72,16 +76,14 @@ void draw(){
 
 
       oscP5.send(myMessage, myRemoteLocation); 
-      // Draw a point
-      vertex(point.x, point.y, point.z);
     }
   }
-  endShape();
+  //endShape();
 
-  popMatrix();
+  //popMatrix();
 
-  fill(255);
-  text(frameRate, 50, 50);
+  //fill(255);
+  //text(frameRate, 50, 50);
 
 
 }
@@ -96,20 +98,20 @@ PVector depthToPointCloudPos(int x, int y, float depthValue) {
 }
 
 //Osc p5 test method
-void mousePressed() {
-  /* in the following different ways of creating osc messages are shown by example */
-  OscMessage myMessage = new OscMessage("/test");
+//void mousePressed() {
+//  /* in the following different ways of creating osc messages are shown by example */
+//  OscMessage myMessage = new OscMessage("/test");
   
-  myMessage.add(123); /* add an int to the osc message */
+//  myMessage.add(123); /* add an int to the osc message */
 
-  /* send the message */
-  oscP5.send(myMessage, myRemoteLocation); 
-}
+//  /* send the message */
+//  oscP5.send(myMessage, myRemoteLocation); 
+//}
 
-/* incoming osc message are forwarded to the oscEvent method. */
-void oscEvent(OscMessage theOscMessage) {
-  /* print the address pattern and the typetag of the received OscMessage */
-  print("### received an osc message.");
-  print(" addrpattern: "+theOscMessage.addrPattern());
-  println(" typetag: "+theOscMessage.typetag());
-}
+///* incoming osc message are forwarded to the oscEvent method. */
+//void oscEvent(OscMessage theOscMessage) {
+//  /* print the address pattern and the typetag of the received OscMessage */
+//  print("### received an osc message.");
+//  print(" addrpattern: "+theOscMessage.addrPattern());
+//  println(" typetag: "+theOscMessage.typetag());
+//}
